@@ -1,0 +1,46 @@
+Q1 Top 5 albums based on sales
+
+SELECT Album.AlbumId, Album.Title, Artist.Name AS "Artist Name", 
+SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) AS Sales
+FROM Artist
+JOIN Album 
+ON Artist.ArtistId = Album.ArtistId
+JOIN Track
+ON Album.AlbumId = Track.AlbumId
+JOIN InvoiceLine
+ON InvoiceLine.TrackId = Track.TrackId
+GROUP BY Album.AlbumId
+ORDER BY Sales DESC
+LIMIT 5;
+
+
+
+Q2 Number of tracks sold by every genre
+
+SELECT Genre.Name, count(Track.TrackId) AS "Number of Tracks Sold"
+FROM Genre
+JOIN Track on Genre.GenreId=Track.GenreId
+JOIN InvoiceLine on InvoiceLine.TrackId=Track.TrackId
+GROUP BY Genre.Name
+ORDER BY "Number of Tracks Sold" DESC;
+
+
+
+Q3 Top 10 artists
+
+SELECT Artist.Name, count (Album.ArtistId) "number of albums"
+FROM Album
+JOIN Artist on Album.ArtistId=Artist.ArtistId
+GROUP by Artist.Name
+ORDER by "number of albums" DESC
+LIMIT 10;
+
+
+Q4 Top 3 MediaTypes
+
+SELECT MediaType.Name, count(Track.MediaTypeId) as Total
+FROM Track
+JOIN MediaType on Track.MediaTypeId=MediaType.MediaTypeId
+GROUP by MediaType.Name 
+ORDER by Total DESC
+LIMIT 3;
